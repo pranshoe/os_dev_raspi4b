@@ -1,0 +1,12 @@
+CompileFlags:
+  Add:
+    - "--target=aarch64-elf"
+    - "-Wall"
+    - "-O2"
+    - "-ffreestanding"
+    - "-fno-builtin"
+    - "-nostdlib"
+    - "-nostdlibinc"
+    - "-mcpu=cortex-a72+nosimd"
+    - "-I${workspaceFolder}/include"
+
