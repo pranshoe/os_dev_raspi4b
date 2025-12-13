@@ -33,6 +33,9 @@ void printf(const char * str, ...){
                 case 'd':
                     puts(itoa(va_arg(args, int), 10));
                     break;
+                case 'u':
+                    puts(utoa(va_arg(args, unsigned int), 10));
+                    break;
                 case 'x':
                     puts(utoa(va_arg(args, int), 16));
                     break;
