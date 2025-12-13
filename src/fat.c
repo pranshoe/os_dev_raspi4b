@@ -132,8 +132,8 @@ void fat_listdir(void){
 }
 
  char *fat_readfile(unsigned int cluster){
-    unsigned int *fat32 = (unsigned int*)(&_end + bpb.reserved_sectors);
-    unsigned int *fat16 = (unsigned short*)fat32;
+    unsigned int *fat32 = (unsigned int*)(&_end + bpb.reserved_sectors*512);
+    unsigned short *fat16 = (unsigned short*)fat32;
 
     unsigned int data_sec, s;
     unsigned char *data, *ptr;
@@ -156,8 +156,8 @@ void fat_listdir(void){
 
         ptr+=bytes_per_sector * bpb.sectors_per_cluster;
 
-        if(bpb.sectors_per_fat_16) memcpy(&cluster, &fat16 + cluster, 2);
-        else memcpy(&cluster, &fat32 + cluster, 4);
+        if(bpb.sectors_per_fat_16) memcpy(&cluster, fat16 + cluster, 2);
+        else memcpy(&cluster, fat32 + cluster, 4);
     }
     return (char *)(data);
  }
