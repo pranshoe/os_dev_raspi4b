@@ -28,7 +28,17 @@ enum{
     PWM_STA_ERROR_MASK = (PWM_STA_GAPO1 | PWM_STA_GAPO2 | PWM_STA_RERR1 | PWM_STA_WERR1)
 };
 
+enum{
+    CTL_ENA_1 = 0x00000001,
+    CTL_ENA_2 = 0x00000100,
+    CTL_ENA_FIFO_1 = 0x00000020,
+    CTL_ENA_FIFO_2 = 0x00002000,
+    CTL_CLR_FIFO = 0x00000040,
+    CTL_ENABLE_MASK = CTL_ENA_1 | CTL_ENA_2 | CTL_ENA_FIFO_1 | CTL_ENA_FIFO_2 | CTL_CLR_FIFO
+};
+
 void audio_init(void);
+void audio_set_sample_rate(unsigned int n);
 void playaudio(unsigned char * data, unsigned int size, unsigned short byte_depth);
 
 #endif
