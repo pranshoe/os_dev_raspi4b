@@ -8,6 +8,21 @@ void memcpy(void *dest, void *src, int bytes){
     }
 }
 
+int memcmp(void *ptr1, void *ptr2, unsigned int size){
+    const unsigned char *p1 = ptr1;
+    const unsigned char *p2 = ptr2;
+    while(size!=0){
+        if(*p1>*p2) {return 1; }
+        else if(*p1<*p2) {return -1; }
+
+        p1++;
+        p2++;
+        size--;
+    }
+    return 0;
+
+}
+
 char* itoa(int n, int base){
     static char buf[32];
     int j=0, i=0, isneg=0;
