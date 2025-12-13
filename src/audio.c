@@ -22,7 +22,9 @@ void audio_init(void){
     mmio_write(PWMCLK_CNTL, (CLOCK_PASS | 1<<4 | 1)); //Set Clock to oscillator and Enable it
     wait_msec(2);
     
+    #ifdef DEBUG
     printf("AUDIO: Initialized\n");
+    #endif
 }
 
 void audio_set_sample_rate(unsigned int n){
@@ -36,8 +38,11 @@ void audio_set_sample_rate(unsigned int n){
     mmio_write(PWM_RNG2, range);
 
     mmio_write(PWM_CTL, CTL_ENABLE_MASK);
+
+    #ifdef DEBUG
     printf("AUDIO: Sampling Rate set to %u\n",n);
     printf("AUDIO: Range set to %u\n", range);
+    #endif
 }
 
 unsigned int parse_pcm(unsigned char* data, unsigned short byte_depth){
@@ -60,6 +65,7 @@ void playaudio(unsigned char *data, unsigned int size, unsigned short byte_depth
     int i=0;
     long status;
 
+    printf("AUDIO: Playing\n");
     while(i<size){
         status = mmio_read(PWM_STA);
         if(!(status & PWM_STA_FULL)){
@@ -70,5 +76,7 @@ void playaudio(unsigned char *data, unsigned int size, unsigned short byte_depth
         }
         if(status & PWM_STA_ERROR_MASK) mmio_write(PWM_STA, PWM_STA_ERROR_MASK);
     }
+
+    printf("AUDIO: Ended\n");
 
 }
