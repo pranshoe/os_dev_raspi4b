@@ -1,5 +1,4 @@
 #include "gpio.h"
-#include "uart.h"
 #include "clock.h"
 #include "audio.h"
 #include "kerio.h"
@@ -38,17 +37,33 @@ void audio_init(void){
     printf("AUDIO: Initialized\n");
 }
 
-void playaudio(unsigned char *data, unsigned int size){
+unsigned int parse_pcm(unsigned char* data, unsigned short byte_depth){
+    int raw = 0;
+    
+    for(int i=0; i<byte_depth; i++){
+        raw |= data[i]<<(8*i);
+    }
+    
+    //Convert to 8-bit PCM Audio since our raspi doesn't support any standard bit-depths above 8-bit
+    if(byte_depth!=1){
+        if(raw & 0x00800000) raw|=0xff000000;
+        raw = raw>>16;
+        raw = raw +128;
+    }
+    return raw;
+}
+
+void playaudio(unsigned char *data, unsigned int size, unsigned short byte_depth){
     int i=0;
     long status;
 
     while(i<size){
         status = mmio_read(PWM_STA);
         if(!(status & PWM_STA_FULL)){
-            mmio_write(PWM_FIFO, *(data + i));
-            i++;
-            mmio_write(PWM_FIFO, *(data + i));
-            i++;
+            mmio_write(PWM_FIFO, parse_pcm(data + i, byte_depth));
+            i+=byte_depth;
+            mmio_write(PWM_FIFO, parse_pcm(data + i, byte_depth));
+            i+=byte_depth;
         }
         if(status & PWM_STA_ERROR_MASK) mmio_write(PWM_STA, PWM_STA_ERROR_MASK);
 

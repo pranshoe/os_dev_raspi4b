@@ -29,6 +29,6 @@ enum{
 };
 
 void audio_init(void);
-void playaudio(unsigned char * data, unsigned int size);
+void playaudio(unsigned char * data, unsigned int size, unsigned short byte_depth);
 
 #endif
