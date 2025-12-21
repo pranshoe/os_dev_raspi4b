@@ -13,7 +13,7 @@ void wav_parser(unsigned char *data){
     }
 
     data += 4;
-    int file_size=*(unsigned short*)data;
+    int file_size=*(unsigned int*)data;
     #ifdef DEBUG
     printf("Size: %d\n", file_size);
     #endif
@@ -27,7 +27,7 @@ void wav_parser(unsigned char *data){
     }
 
     data+=4;
-    int chunk_size=*(unsigned short*)data;
+    int chunk_size=*(unsigned int*)data;
     #ifdef DEBUG
     printf("FMT chunk size: %u\n", chunk_size);
     #endif
