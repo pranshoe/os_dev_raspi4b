@@ -53,10 +53,15 @@ unsigned int parse_pcm(unsigned char* data, unsigned short byte_depth){
     }
     
     //Convert to 8-bit PCM Audio since our raspi doesn't support any standard bit-depths above 8-bit
-    if(byte_depth!=1){
+    if(byte_depth==3){
         if(raw & 0x00800000) raw|=0xff000000;
         raw = raw>>16;
         raw = raw +128;
+    }
+    else if(byte_depth==2){
+        if(raw & 0x00008000) raw|=0xffff0000;
+        raw = raw >> 8;
+        raw = raw + 128;
     }
     return raw;
 }
