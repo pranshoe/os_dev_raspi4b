@@ -41,10 +41,6 @@ void wav_parser(unsigned char *data){
     printf("Data Rate: %u\n", fmt.data_rate);
     printf("Data Block Size:%u\n", fmt.data_block_size);
     printf("Bit Depth: %u\n", fmt.bit_depth);
-    printf("cbSize: %u\n", fmt.extra_size);
-    printf("Actual Bit Depth: %u\n", fmt.true_bit_depth);
-    printf("Channel Mask: %x\n", fmt.channel_mask);
-    printf("Extended Format Tag: %x\n", fmt.ext_format_tag);
     #endif
 
     audio_set_sample_rate(fmt.sample_rate);
