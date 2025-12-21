@@ -1,6 +1,7 @@
 #include "wav.h"
 #include "audio.h"
 #include "kerio.h"
+#include "stdlib.h"
 
 void wav_parser(unsigned char *data){
     if(!((data[0]=='R' && data[1]=='I' && data[2]=='F' && data[3]=='F') 
@@ -57,8 +58,10 @@ void wav_parser(unsigned char *data){
     printf("Data Block Found\n");
     #endif
     data+=4;
+    int data_size;
+    memcpy(&data_size, data, 4);
     #ifdef DEBUG
-    printf("Data Block Size %u\n",*(unsigned int*)data);
+    printf("Data Block Size %u\n",data_size);
     #endif
-    playaudio(data+4, *(unsigned int*)data, fmt.bit_depth/8);
+    playaudio(data+4, data_size, fmt.bit_depth/8);
 }
